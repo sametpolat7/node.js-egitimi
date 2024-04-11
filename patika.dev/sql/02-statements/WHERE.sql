@@ -13,7 +13,8 @@ WHERE Country='Mexico';
 --| <= Daha az veya eşit
 --| <> Eşit değil. Not: SQL'in bazı sürümlerinde bu işleç != olarak yazılabilir
 --| BETWEEN Belirli bir aralık arasında.
---| LIKE Bir pattern arayın.
+--| LIKE Bir pattern arayın. (~~)
+--| ILIKE Case-sensetive olmayan bir pattern arayın. (~~*)
 --| IN Bir sütun için birden fazla olası değer belirtmek için.
 
 SELECT * FROM Customers
@@ -46,10 +47,10 @@ WHERE CityName IN ('Berlin', 'London');
 -- Not: 
 -- Wildcard (%): herhangi bir karakter dizisiyle eşleşir.
 -- Örneğin:
--- LIKE 'John%', "John" ile başlayan tüm dizelerle eşleşir.
+-- LIKE 'Jo%', "Jo" ile başlayan tüm dizelerle eşleşir.
 -- LIKE '%son%', içinde herhangi bir yerinde "son" geçen tüm dizelerle eşleşir.
 -- LIKE '%son', "son" ile biten herhangi bir dizeyle eşleşir.
 
 -- Single-character wildcard (_): herhangi bir tek karakterle eşleşir.
 -- Örneğin:
--- LIKE '_ohn', "John" veya "rohn" gibi ikinci ila dördüncü karakterlerin "ohn" olduğu dört karakterli herhangi bir dizeyle eşleşir.
+-- LIKE 'J_an', "Jean" veya "Joan" gibi ikinci ila dördüncü karakterlerin "J_an" olduğu dört karakterli herhangi bir dizeyle eşleşir.
