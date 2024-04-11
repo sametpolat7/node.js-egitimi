@@ -1,0 +1,85 @@
+VERİ NEDİR?
+Veri, anlam ve içgörü elde etmek amacıyla, depolanabilen işlenebilen veya analiz edilebilen ham gerçek, rakam ya da bilgilerdir.
+
+VERİTABANI NEDİR?
+Veritabanı, verilerin etkin şekilde deponabilmesi, manipüle edilebilmesi ve yönetilebilmesi amacıyla elektronik olarak depolanabilen ve düzenlenebilen yapılandırılmış veri koleksiyonlarıdır.
+
+VERİTABANI YÖNETİM SİSTEMİ (DBMS) NEDİR?
+Veritabanı Yönetim Sistemi (DBMS), bir veritabanındaki verilerin oluşturulmasını, düzenlenmesini, alınmasını ve manipüle edilmesini kolaylaştıran bir yazılımdır.
+
+SQL NEDİR?
+Yapılandırılmış Sorgu Dili anlamına gelen SQL (Structured Query Language), ilişkisel veritabanlarını yönetmek ve manipüle etmek için kullanılan standartlaştırılmış bir programlama dilidir. Veri sorgulama, veri güncelleme, veri ekleme ve veritabanından veri silme gibi çeşitli görevleri gerçekleştirmek için bir dizi komut ve sözdizimi sağlar (CRUD). SQL, MySQL, PostgreSQL, Oracle, SQL Server ve SQLite gibi veritabanı yönetim sistemlerinde (DBMS) yaygın olarak kullanılır.
+
+SQL NELER YAPABİLİR?
+SQL bir veritabanına karşı sorgular yürütebilir
+SQL bir veritabanından veri alabilir
+SQL bir veritabanına kayıt ekleyebilir
+SQL bir veritabanındaki kayıtları güncelleyebilir
+SQL bir veritabanından kayıtları silebilir
+SQL yeni veritabanları oluşturabilir
+SQL bir veritabanında yeni tablolar oluşturabilir
+SQL veritabanında saklı prosedürler oluşturabilir
+SQL bir veritabanında görünümler oluşturabilir
+SQL tablolar, prosedürler ve görünümler üzerinde izinler ayarlayabilir
+
+
+BİLİNEN BAZI VERİTABANI YÖNETİM SİSTEMLERİ (Database Management Systems (DBMS))
+1. MySQL: Güvenilirliği, performansı ve kullanım kolaylığı ile bilinen açık kaynaklı bir ilişkisel veritabanı yönetim sistemi. MySQL genellikle web uygulamaları için kullanılır ve genellikle PHP ile eşleştirilir.
+
+2. PostgreSQL: Genişletilebilirlik ve standartlara uyumluluğu vurgulayan bir başka açık kaynaklı ilişkisel veritabanı yönetim sistemi. PostgreSQL, JSON veri türleri için destek ve karmaşık sorguları ve büyük veri kümelerini işleme yeteneği gibi gelişmiş özellikleriyle bilinir.
+
+3. Microsoft SQL Server: Microsoft tarafından geliştirilen ilişkisel bir veritabanı yönetim sistemi. SQL Server kurumsal ortamlarda yaygın olarak kullanılır ve Microsoft ürün ve hizmetleriyle entegrasyon, yüksek kullanılabilirlik ve iş zekası araçları gibi özellikler sunar.
+
+4. Oracle Veritabanı: Oracle Corporation tarafından geliştirilen ilişkisel bir veritabanı yönetim sistemi. Oracle Database ölçeklenebilirliği, güvenilirliği ve kapsamlı özellik setiyle tanınır ve büyük ölçekli kurumsal ortamlarda popülerdir.
+
+5. SQLite: Genellikle uygulamalara yerleştirilen hafif, sunucusuz bir ilişkisel veritabanı yönetim sistemi. SQLite basitliği, taşınabilirliği ve az yer kaplamasıyla bilinir, bu da onu mobil uygulamalarda ve küçük ölçekli projelerde kullanım için ideal hale getirir.
+
+6. MongoDB: Belge odaklı bir veri modeli kullanan bir NoSQL veritabanı yönetim sistemi. MongoDB esnekliği, ölçeklenebilirliği ve yapılandırılmamış ve yarı yapılandırılmış verileri işleme yeteneği ile bilinir. Hızla gelişen veri şemalarına veya büyük hacimli verilere sahip uygulamalarda yaygın olarak kullanılır.
+
+7. Redis: Genellikle önbellek veya mesaj aracısı olarak kullanılan hızlı, bellek içi bir veri deposu. Redis dizeler, listeler, kümeler ve hash'ler gibi çeşitli veri yapılarını destekleyerek önbellekleme, gerçek zamanlı analiz ve pub/sub mesajlaşma gibi kullanım durumları için çok yönlü hale getirir.
+
+8. Cassandra: Birden fazla düğümde büyük hacimli verileri işlemek için tasarlanmış dağıtılmış bir NoSQL veritabanı yönetim sistemi. Cassandra yüksek kullanılabilirliği, hata toleransı ve doğrusal ölçeklenebilirliği ile bilinir, bu da onu IoT, zaman serisi verileri ve gerçek zamanlı analitik gibi kullanım durumları için uygun hale getirir.
+
+Not: SQL bir ANSI/ISO standardı olmasına rağmen, SQL dilinin farklı versiyonları vardır. Bununla birlikte, ANSI standardıyla uyumlu olmak için, hepsi en azından ana komutları (SELECT, UPDATE, DELETE, INSERT, WHERE gibi) benzer şekilde destekler. SQL veritabanı programlarının çoğu SQL standardına ek olarak kendi özel uzantılarına da sahiptir!
+
+
+İLİŞKİŞEL VERİTABANI NEDİR? (RDBMS)
+İlişkisel veritabanı, verileri satır ve sütunlara sahip tablolar halinde düzenleyen, her tablonun bir ilişkiyi ve her satırın bir kaydı veya tuple'ı temsil ettiği ve tablolar arasındaki ilişkilerin anahtarlar aracılığıyla kurulduğu bir veritabanı türüdür.
+
+RDBMS (İlişkisel Veritabanı Yönetim Sistemi), ilişkisel veritabanları oluşturmak, yönetmek ve sorgulamak için araçlar sağlayan ilişkisel bir veritabanı modeli uygulayan yazılımı ifade eder. RDBMS örnekleri arasında MySQL, PostgreSQL, Oracle Database, SQL Server ve SQLite sayılabilir.
+
+Her tablo, alan adı verilen daha küçük varlıklara bölünmüştür. Bir alan, tablodaki her kayıt hakkında belirli bilgileri tutmak için tasarlanmış bir sütundur.
+
+Satır olarak da adlandırılan bir kayıt, bir tabloda var olan her bir girdidir. Örneğin, yukarıdaki Müşteriler tablosunda 91 kayıt vardır. Kayıt, bir tablodaki yatay bir varlıktır.
+
+Sütun, bir tablodaki belirli bir alanla ilişkili tüm bilgileri içeren dikey bir varlıktır.
+
+
+SQL VE NOSQL FARKLARI
+SQL (Structured Query Language) ve NoSQL (Not Only SQL) veri modelleri, sorgu dilleri, ölçeklenebilirlikleri ve kullanım durumları açısından farklılık gösteren iki geniş veritabanı yönetim sistemi (DBMS) kategorisidir. İşte SQL ve NoSQL veritabanlarının bir karşılaştırması:
+
+SQL Databases
+- Veri Modeli: SQL veritabanları tipik olarak verilerin tablolar içinde satırlar ve sütunlar halinde düzenlendiği tablosal bir yapı izler. Verilerin veritabanında depolanmadan önce yapısının tanımlanması gereken katı bir şema uygularlar.
+
+- Sorgu Dili: SQL veritabanları, veri sorgulama, manipülasyon ve şema tanımı gibi işlemleri gerçekleştirmek için standart sorgu dili olarak SQL kullanır.
+SQL, karmaşık sorgular, birleştirmeler, toplamalar ve işlem yönetimi için zengin bir dizi özellik sağlar.
+
+- ACID İşlemleri: SQL veritabanları genellikle ACID (Atomicity, Consistency, Isolation, Durability) işlemlerini destekleyerek veri bütünlüğünü ve tutarlılığını sağlar.
+İşlemler, birden fazla işlemin tek bir birim olarak bir araya getirilmesine izin verir, hepsi başarılı olur veya hepsi başarısız olur.
+
+- Ölçeklenebilirlik: SQL veritabanları geleneksel olarak dikey olarak ölçeklendirilir, yani tek bir sunucuya daha fazla kaynak (CPU, bellek, depolama) eklenerek ölçeklendirilir.
+SQL veritabanlarını birden fazla sunucuda yatay olarak ölçeklendirmek zor olabilir ve genellikle karmaşık replikasyon ve parçalama stratejileri gerektirir.
+
+- Kullanım Örnekleri: SQL veritabanları, işlem sistemleri, finansal uygulamalar ve kurumsal uygulamalar gibi yapılandırılmış verilere ve karmaşık ilişkilere sahip uygulamalar için çok uygundur.
+
+
+NOSQL Databases
+- Veri Modeli: NoSQL veritabanları, belge odaklı, anahtar-değer, sütun ve grafik veritabanları dahil olmak üzere çeşitli veri modellerini destekler. Veri temsilinde esneklik sağlayarak, verilerin yapısının zaman içinde değişebildiği şemasız veya dinamik şema yaklaşımlarına izin verirler.
+
+- Sorgu Dili: NoSQL veritabanlarının genellikle belirli veri modellerine göre uyarlanmış kendi sorgu dilleri veya API'leri vardır. Bu sorgu dilleri SQL'den daha az anlamlı olabilir, ancak veritabanının belirli veri modeli ve kullanım durumları için optimize edilmiştir.
+
+- Temel İşlemler: NoSQL veritabanları genellikle katı ACID işlemleri yerine BASE (Temelde Kullanılabilir, Yumuşak durum, Nihayetinde tutarlı) modelini takip eder. Katı tutarlılık yerine kullanılabilirlik ve bölüm toleransına öncelik vererek dağıtık sistemler arasında nihai tutarlılığa izin verirler.
+
+- Ölçeklenebilirlik: NoSQL veritabanları yatay ölçeklenebilirlik için tasarlanmıştır ve dağıtılmış bir kümeye daha fazla düğüm ekleyerek ölçeklendirmeyi kolaylaştırır. Çoğaltma, bölümleme ve otomatik yük devretme için yerleşik destek ile büyük hacimli verileri ve yüksek hızlı veri alımını işlemek için çok uygundurlar.
+
+- Kullanım Örnekleri: NoSQL veritabanları, yapılandırılmamış veya yarı yapılandırılmış veriler, gerçek zamanlı analitik, içerik yönetim sistemleri, IoT (Nesnelerin İnterneti) ve yüksek ölçeklenebilirlik ve esnekliğin gerekli olduğu büyük ölçekli web uygulamalarında yaygın olarak kullanılmaktadır.

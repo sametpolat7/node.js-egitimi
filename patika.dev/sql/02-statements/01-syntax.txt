@@ -1,0 +1,18 @@
+SQL anahtar sözcükleri büyük/küçük harfe duyarlı DEĞİLDİR: select, SELECT ile aynıdır.
+
+SQL boşlukları yok sayar! Yani aynı ifadeye ait her SQL deyimini satır başı yazabilirsiniz.
+
+SQL, metin değerlerinin etrafında tek tırnak işareti gerektirir (çoğu veritabanı sistemi çift tırnak işaretine de izin verir). Ancak, sayısal alanlar tırnak içine alınmamalıdır.
+
+En Önemli SQL Komutlarından Bazıları
+SELECT - bir veritabanından veri çeker
+UPDATE - bir veritabanındaki verileri günceller
+DELETE - veritabanındaki verileri siler
+INSERT INTO - bir veritabanına yeni veri ekler
+CREATE DATABASE - yeni bir veritabanı oluşturur
+ALTER DATABASE - bir veritabanını değiştirir
+CREATE TABLE - yeni bir tablo oluşturur
+ALTER TABLE - bir tabloyu değiştirir
+DROP TABLE - bir tabloyu siler
+CREATE INDEX - bir dizin oluşturur (arama anahtarı)
+DROP INDEX - bir dizini siler.
