@@ -1,0 +1,12 @@
+Toplama işlevi, bir değerler kümesi üzerinde hesaplama yapan ve tek bir değer döndüren bir işlevdir.
+
+Toplama fonksiyonları genellikle SELECT deyiminin GROUP BY cümlesiyle birlikte kullanılır. GROUP BY cümlesi sonuç kümesini değer gruplarına ayırır ve aggregate fonksiyonu her grup için tek bir değer döndürmek için kullanılabilir.
+
+En yaygın kullanılan SQL toplama işlevleri şunlardır:
+
+MIN() - seçilen sütun içindeki en küçük değeri döndürür
+MAX() - seçilen sütun içindeki en büyük değeri döndürür
+COUNT() - bir kümedeki satır sayısını döndürür
+SUM() - sayısal bir sütunun toplamını döndürür
+AVG() - sayısal bir sütunun ortalama değerini döndürür
+Toplama işlevleri null değerleri yok sayar (COUNT() hariç).
