@@ -111,6 +111,8 @@ import {multiple, divide} from './notes.js'
 // fs.readdir(): Bir dizinin içeriğini eşzamansız olarak okur.
 // fs.readdirSync(): Bir dizinin içeriğini eşzamanlı olarak okur.
 // fs.rmdir(): Bir dizini eşzamansız olarak kaldırır.
+    // Eğer içinde halihazırda bir dosya varsa dizini kaldırmaz!
+    
 // fs.rmdirSync(): Bir dizini eşzamanlı olarak kaldırır.
 
 // Dosya İşlemleri:
