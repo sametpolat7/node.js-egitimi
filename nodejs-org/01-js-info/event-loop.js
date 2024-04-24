@@ -1,0 +1,17 @@
+// JavaScript'te "stack" ve "heap" terimleri genellikle bellek yönetimine atıfta bulunur, ancak C veya C++ gibi daha düşük seviyeli programlama dillerinde olduğu gibi dilde açıkça tanımlanmaz veya doğrudan erişilebilir değildir.
+
+// Stack: JavaScript'teki yığın genellikle 'çağrı yığınını' ifade eder. Bir kodun yürütülmesi sırasında işlev çağrılarını ve bu işlevler içinde oluşturulan yerel değişkenleri depolayan özel bir bellek bölgesidir. Bir işlev çağrıldığında, yığına yeni bir frame itilir ve işlev tamamlandığında, frame yığından çıkarılır. Bu 'sıralı' davranış, işlevlerin çağrıldıkları sırayla yürütülmesini sağlar ve argüman geçirme ve değer döndürme dahil olmak üzere işlev çağrılarının yönetilmesine olanak tanır.
+
+// Heap: Programcıların yığın üzerinde bellek tahsisi üzerinde açık kontrole sahip olduğu C veya C++ gibi dillerin aksine, JavaScript doğrudan bellek yönetimini soyutlar. Chrome'daki V8 veya Firefox'taki SpiderMonkey gibi JavaScript motorları, nesneler için bellek ayırma ve çıkarma işlemlerini dinamik olarak gerçekleştirir. JavaScript'teki yığın, dinamik olarak ayrılmış nesnelerin (diziler ve nesneler gibi) depolandığı bellek alanını ifade eder. JavaScript motorunun bir bileşeni olan çöp toplayıcı, artık başvurulmayan nesnelerden belleği geri alarak heap'teki belleği otomatik olarak yönetir, böylece geliştiricilerin manuel bellek yönetimine gerek kalmadan verimli bellek kullanımına olanak tanır.
+
+// Event Loop
+// JavaScript'te olay döngüsü, yürütülecek görevlerin bir kuyruğunu (queue) tutarak eşzamansız işlemlerin yürütülmesini yönetir. Bu, eşzamansız görevlerin eklendikleri sırada işlenmesini sağlayarak JavaScript kodu açısından etkin bir şekilde eşzamanlı görünmelerini sağlar.
+
+// Örneğin, bir geri arama işlevini belirli bir gecikmeden sonra çalışacak şekilde zamanlamak için setTimeout kullandığınızda veya bir AJAX isteği yaptığınızda, bu işlemler V8 çalışma zamanı ortamı tarafından eşzamansız olarak işlenir. Bu işlemlerle ilişkili geri aramalar görev kuyruğuna yerleştirilir ve olay döngüsü, yürütülecek görevler için bu kuyruğu sürekli olarak kontrol eder. Çağrı yığını boşaldığında, olay döngüsü kuyruktan bir sonraki görevi seçer ve ilişkili geri çağrıyı yürütür.
+
+// JavaScript, görevleri kuyruğa eklendikleri sırayla işleyerek ve yürütmeden önce çağrı yığınının boşalmasını bekleyerek, eşzamansız işlemlerin diğer kodlarla aynı anda çalışıyor olsalar bile öngörülebilir ve senkronize bir şekilde yürütülmesini sağlar. Bu mekanizma yarış koşullarının önlenmesine yardımcı olur ve eşzamansız görevlerin programın eşzamanlı yürütme akışına müdahale etmemesini sağlar.
+
+// Soru: Çağrı yığını boşalmadan, yani eşzamanlı işlemler tamamlanmadan eşzamansız bir işlem asla stacke alınmaz mı?
+// Cevap: Bu doğru. JavaScript'te asenkron görevler yürütme için sıraya alınır ve yalnızca çağrı yığını boş olduğunda çalıştırılır. Bu, eşzamansız görevlerin programın eşzamanlı yürütme akışını kesintiye uğratmayacağı anlamına gelir. Bunun yerine, çağrı yığını temizlenene kadar ertelenirler ve herhangi bir eşzamansız görev yürütülmeden önce eşzamanlı görevlerin tamamlanmasını sağlarlar.
+
+// Bu nedenle, eşzamansız bir görev hemen çalışacak şekilde zamanlanmış olsa bile (örneğin, 0 milisaniye gecikmeli setTimeout ile), geçerli çağrı yığını boşalana kadar yürütülmez. Bu davranış, JavaScript'in tek iş parçacıklı yapısını korumaya yardımcı olurken, bloklamayan eşzamansız işlemlere izin verir.

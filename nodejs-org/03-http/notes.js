@@ -11,7 +11,6 @@
 
 // Node.js'de yeni ECMAScript standartları sorunsuz bir şekilde kullanılabilir, çünkü tüm kullanıcılarınızın tarayıcılarını güncellemelerini beklemek zorunda değilsiniz - Node.js sürümünü değiştirerek hangi ECMAScript sürümünün kullanılacağına karar vermekten siz sorumlusunuz ve Node.js'yi bayraklarla çalıştırarak belirli deneysel özellikleri de etkinleştirebilirsiniz.
 
-
 // HTTP Nedir?
 // HTTP, (HyperText Transfer Protocol). World Wide Web'de bir istemci (web tarayıcısı gibi) ile bir sunucu arasındaki iletişimi yöneten bir protokoldür. HTTP, web üzerindeki veri iletişiminin temelidir ve metin, resim, video ve diğer multimedya kaynakları dahil olmak üzere çeşitli içerik türlerinin alışverişini sağlar.
 
@@ -46,7 +45,6 @@
 
 // TRACE: İstemcinin ara sunucular tarafından hangi değişikliklerin veya eklemelerin yapıldığını (varsa) görebilmesi için alınan isteği geri yankılar.
 
-
 // HTTP ile TCP'nin bağlantısı nedir?
 // TCP (Transmission Control Protocol), internet protokol paketi (TCP/IP) içinde HTTP'den "*daha düşük bir seviyede" çalışan temel bir protokoldür. HTTP istemciler ve sunucular arasındaki iletişimden sorumluyken, TCP internet üzerindeki cihazlar arasında veri iletimini yönetir.
 
@@ -72,9 +70,8 @@
 
 // Bu nedenle, TCP'nin HTTP'den "daha düşük bir seviyede" çalıştığı söylendiğinde, TCP'nin ağ üzerinden güvenilir bir şekilde veri iletmenin teknik ayrıntılarıyla daha fazla ilgilendiği, HTTP'nin ise web iletişiminin özellikleriyle ilgilenen daha yüksek bir seviyede çalıştığı anlamına gelir.
 
-
 // OSI Modeli Nedir?
-// OSI (Open Systems Interconnection) modeli, bir telekomünikasyon veya bilgi işlem sisteminin işlevlerini yedi ayrı katman halinde standartlaştıran ve farklı sistemler ve ağlar arasında birlikte çalışabilirliği kolaylaştıran kavramsal bir çerçevedir.
+// OSI (Open Systems Interconnection) modeli, bir telekomünikasyon veya bilgi işlem sisteminin işlevlerini yedi ayrı katman halinde standartlaştıran ve farklı sistemler ile ağlar arasında birlikte çalışabilirliği kolaylaştıran kavramsal bir çerçevedir.
 
 // 1. Application Layer
 // Uygulama Katmanı, OSI modelinin en üst katmanıdır. Ağ hizmetlerini doğrudan son kullanıcılara veya uygulamalara sağlar.Bu katman üst düzey protokoller, kullanıcı arayüzleri ve uygulama düzeyindeki verilerle ilgilenir. Bu katmandaki protokollere örnek olarak HTTP (Hypertext Transfer Protocol), SMTP (Simple Mail Transfer Protocol), FTP (File Transfer Protocol) ve DNS (Domain Name System) verilebilir.
@@ -110,7 +107,6 @@
 // Fiziksel Katman, verilerin ağ ortamı üzerinden fiziksel iletimi ile ilgilenir. Kablolar, konektörler ve sinyal mekanizmaları gibi donanım özelliklerini tanımlar. Fiziksel katman teknolojilerine örnek olarak Ethernet kabloları, fiber optikler ve kablosuz radyo frekansları verilebilir.
 
 // Örnek: Bir ağa bağlanmak için bilgisayarınıza bir Ethernet kablosu taktığınızda, Fiziksel Katman kablo üzerinden veri iletmek için gereken elektrik sinyallerini ve voltaj seviyelerini yönetir.
-
 
 // ** NOT **
 // localhost (127.0.0.1): localhost, genellikle 127.0.0.1 IP adresine çözümlenen bir ana bilgisayar adıdır. Bu IP adresi her zaman kendi makinenizin geri döngü arayüzünü ifade eder. localhost veya 127.0.0.1 adresine eriştiğinizde, kendi bilgisayarınıza bağlanıyorsunuz demektir.
