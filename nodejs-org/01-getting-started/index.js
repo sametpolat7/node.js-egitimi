@@ -10,8 +10,6 @@
 
 // Node.js ağdan okuma, bir veritabanına veya dosya sistemine erişme gibi bir G/Ç işlemi gerçekleştirdiğinde, iş parçacığını engellemek ve CPU döngülerini bekleyerek boşa harcamak yerine, yanıt geri geldiğinde işlemlere devam edecektir.
 
-// Node.js'de yeni ECMAScript standartları sorunsuz bir şekilde kullanılabilir. Node.js sürümünü değiştirerek hangi ECMAScript sürümünün kullanılacağına karar vermekten siz sorumlusunuz ve Node.js'yi bayraklarla çalıştırarak belirli deneysel özellikleri de etkinleştirebilirsiniz.
-
 // Paket yükleme:
 // npm, projenizin bağımlılıklarının indirilmesini yönetir: npm install packageName
 
@@ -37,7 +35,7 @@
 // Bir kütüphanenin açık bir sürümünün belirtilmesi, herkesin bir paketin aynı tam sürümünde kalmasına da yardımcı olur, böylece package.json dosyası güncellenene kadar tüm ekip aynı sürümü çalıştırır:
 // npm install packageName@version ya da npm install packageName@latest (Son sürüm)
 
-// Çalışan Görevler
+// Run Tasks
 // package.json dosyası, aşağıdakileri kullanarak çalıştırılabilecek komut satırı görevlerini belirtmek için bir biçimi destekler.
 // npm run <task-name>
 

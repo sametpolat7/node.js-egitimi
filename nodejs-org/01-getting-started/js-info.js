@@ -273,7 +273,7 @@ Promise.any([fetchPromise7, fetchPromise8, fetchPromise9])
 // async ve await
 // async anahtar sözcüğü, eşzamansız söz tabanlı kodla çalışmak için size daha basit bir yol sunar. Bir fonksiyonun başına async eklenmesi onu async fonksiyonu yapar:
 
-// Bir asenkron fonksiyonun içinde, vaat döndüren bir fonksiyon çağrısından önce await anahtar sözcüğünü kullanabilirsiniz. Bu, kodun o noktada vaat yerine getirilene kadar beklemesini sağlar; bu noktada vaadin yerine getirilen değeri bir dönüş değeri olarak ele alınır veya reddedilen değer atılır.
+// *** Bir asenkron fonksiyonun içinde, "promise" döndüren bir fonksiyon çağrısından önce await anahtar sözcüğünü kullanabilirsiniz. Bu, kodun o noktada promise yerine getirilene kadar beklemesini sağlar; bu noktada vaadin yerine getirilen değeri bir dönüş değeri olarak ele alınır veya reddedilen değer atılır.
 
 // Bu, eşzamansız işlevler kullanan ancak eşzamanlı kod gibi görünen kod yazmanıza olanak tanır. Örneğin, fetch örneğimizi yeniden yazmak için kullanabiliriz:
 
@@ -282,9 +282,6 @@ async function fetchProducts() {
     const response = await fetch(
       "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json"
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error: ${response.status}`);
-    }
     const data = await response.json();
     console.log(data[0].name);
   } catch (error) {
@@ -321,18 +318,18 @@ console.log(promise[0].name); // "promise" is a Promise object, so this will not
 // Bunun yerine, şöyle bir şey yapmanız gerekir:
 async function fetchProducts() {
   try {
-    const yanıt = await fetch(
+    const response = await fetch(
       "https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json"
     );
     if (!response.ok) {
-      throw new Error(`HTTP hatası: ${response.status}`);
+      throw new Error(`HTTP hatasi: ${response.status}`);
     }
-    const veri = await yanıt.json();
+    const veri = await response.json();
     return data;
   } catch (hata) {
-    console.error(`Ürünler alınamadı: ${error}`);
+    console.error(`Ürünler alinamadi: ${error}`);
   }
 }
 
 const promise1 = fetchProducts();
-promise1.then((veri) => console.log(veri[0].isim));
+promise1.then((data) => console.log(data[0].name));
