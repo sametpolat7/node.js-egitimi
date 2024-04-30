@@ -84,7 +84,7 @@
 
 // Olay Güdümlü Mimari: Node.js olay güdümlü, blokajsız bir I/O modeli üzerine inşa edilmiştir. Bu, her istek için yeni bir iş parçacığı oluşturmak yerine, birden fazla eşzamanlı bağlantıyı işlemek için tek iş parçacıklı bir olay döngüsü kullandığı anlamına gelir. İstekler geldikçe, bir olay döngüsünde kuyruğa alınır ve eşzamansız olarak işlenir, böylece sunucunun çok sayıda isteği bloklama olmadan aynı anda işlemesine olanak tanır.
 
-// Asenkron I/O İşlemleri: Node.js büyük ölçüde dosyalardan okuma, veritabanlarını sorgulama ve HTTP istekleri yapma gibi asenkron G/Ç işlemlerine dayanır. Bir istek G/Ç işlemleri gerektirdiğinde, Node.js bu görevleri "altta yatan işletim sistemine devrederek" sunucunun G/Ç işlemlerinin tamamlanmasını beklerken diğer istekleri işlemeye devam etmesini sağlar.
+// Asenkron I/O İşlemleri: Node.js büyük ölçüde dosyalardan okuma, veritabanlarını sorgulama ve HTTP istekleri yapma gibi asenkron I/O işlemlerine dayanır. Bir istek I/O işlemleri gerektirdiğinde, Node.js bu görevleri "altta yatan işletim sistemine devrederek" sunucunun I/O işlemlerinin tamamlanmasını beklerken diğer istekleri işlemeye devam etmesini sağlar.
 
 // Engellemesiz Yürütme: Node.js, JavaScript kodunu engellemesiz bir şekilde yürütür, yani bir sonraki işleme geçmeden önce bir işlemin tamamlanmasını beklemez. Bunun yerine, kodu yürütmeye devam eder ve tamamlandıklarında eşzamansız işlemlerin sonuçlarını işlemek için geri aramaları, vaatleri veya async/await sözdizimini kullanır.
 
@@ -135,7 +135,7 @@ if (cluster.isMaster) {
 
 // Kernel, bir işletim sisteminin (OS) donanım ve yazılım katmanları arasında köprü görevi gören temel bir bileşenidir. CPU, bellek, giriş/çıkış aygıtları gibi sistem kaynaklarını yönetmekten ve uygulamaları çalıştırmak için bir platform sağlamak üzere bunların etkileşimlerini koordine etmekten sorumludur. Kernel, donanım kaynaklarına erişmesine ve kritik sistem işlevlerini yerine getirmesine olanak tanıyan ayrıcalıklı modda çalışır. Kullanıcı alanı uygulamalarıyla, programların kendi adlarına görevleri yerine getirmesi için çekirdeğe yaptıkları istekler olan "sistem çağrıları" aracılığıyla etkileşime girer.
 
-// O zaman soralım, Bir nodejs sunucusuna istekte bulunduğumuzda kaputun altında aslında neler olur?
+// *** O zaman soralım, Bir nodejs sunucusuna istekte bulunduğumuzda kaputun altında aslında neler olur?
 
 // V8 Motorlu Node.js Sunucusu: Bir Node.js sunucusuna istek gönderdiğinizde, Node.js çalışma zamanı (V8 JavaScript motorunu içerir) isteği alır. V8 motoru JavaScript kodunu derler ve yürütür.
 
@@ -143,7 +143,7 @@ if (cluster.isMaster) {
 
 // Sistem Çağrıları: JavaScript kodunuzun işletim sistemiyle etkileşime girmesi veya çekirdek düzeyinde erişim gerektiren görevleri yerine getirmesi gerekiyorsa (örneğin, dosyalardan okuma, ağ istekleri yapma), kernel'e "sistem çağrıları" yapar.
 
-// Kernel İşleme: Kernel bu sistem çağrılarını alır ve süreçlerin dosyalar, ağ arayüzleri vb. gibi sistem kaynaklarıyla etkileşimlerini yönetir. Bellek kullanımlarını ve G/Ç işlemlerini yönetmek de dahil olmak üzere bu işlemleri planlar ve koordine eder.
+// Kernel İşleme: Kernel bu sistem çağrılarını alır ve süreçlerin dosyalar, ağ arayüzleri vb. gibi sistem kaynaklarıyla etkileşimlerini yönetir. Bellek kullanımlarını ve I/O işlemlerini yönetmek de dahil olmak üzere bu işlemleri planlar ve koordine eder.
 
 // CPU Yürütme: Kernel, işlemleri yürütülmek üzere CPU çekirdeklerine (core) programlar. Her CPU çekirdeği (core), atandığı işlemlerden gelen talimatları yürütür. Dolayısıyla, uygulamanız ağır hesaplama içeriyorsa, bu talimatlar CPU çekirdeklerinde (core) yürütülecektir.
 
@@ -153,7 +153,7 @@ if (cluster.isMaster) {
 
 // Kernel'a Sistem Çağrıları Gönderme: Node.js asenkron işlemi başlattığında (örneğin, bir HTTP isteği), ağ I/O'sunu gerçekleştirmek için Kernel'a sistem çağrıları yapar. Bu sistem çağrıları kernel'ı işlem hakkında bilgilendirir ve HTTP isteğinin hedef adresi gibi işlemi gerçekleştirmesi için gerekli bilgileri sağlar.
 
-// Kernel İşleme: Kernel, bir ağ bağlantısı kurma, HTTP isteğini ağ üzerinden gönderme ve yanıtı bekleme gibi görevleri içerebilen ağ G/Ç işlemini yönetir. Bu süre zarfında Kernel, CPU çekirdeklerinde yürütülmesi için diğer işlemleri programlayabilir.
+// Kernel İşleme: Kernel, bir ağ bağlantısı kurma, HTTP isteğini ağ üzerinden gönderme ve yanıtı bekleme gibi görevleri içerebilen ağ I/O işlemini yönetir. Bu süre zarfında Kernel, CPU çekirdeklerinde yürütülmesi için diğer işlemleri programlayabilir.
 
 // Asenkron İşlemin Tamamlanması: Ağ I/O işlemi tamamlandığında (örneğin, HTTP yanıtı alındığında), "KERNEL" Node.js'ye işlemin tamamlandığını bildirir.
 
@@ -176,3 +176,38 @@ if (cluster.isMaster) {
 // Geri Çağırma İşlevinin Depolanması: Eşzamansız işlemle ilişkili geri arama işlevi "HEMEN olay kuyruğuna YERLEŞTİRİLMEZ". Bunun yerine, JavaScript çalışma zamanı bağlamında bellekte (HEAP) kalır. Node.js, işlem tamamlanana kadar bu geri arama işlevine bir "referans" tutar.
 
 // Geri Çağırma Yürütmesi: Eşzamansız işlem tamamlandığında ve işletim sistemi Node.js'yi bilgilendirdiğinde, ilgili geri arama işlevi önceliğine bağlı olarak queue üzerinde sıraya alınır. Event loop daha sonra sırayı kaldırır ve call stacke iletilen geri arama işlevini yürütür.
+
+// EXTRA
+
+// Buffer Nedir?
+// Node.js'de Buffer, ikili verilerle doğrudan çalışmanıza olanak tanıyan bellekteki (RAM) geçici bir depolama alanıdır. Esasen JavaScript motorunun dışında tahsis edilen ve ham ikili verileri tutabilen bir bellek yığınıdır. Bufferlar, dosyalardan okuma veya dosyalara yazma, ağ iletişimi veya çeşitli formatlardaki ham verileri işleme gibi ikili verileri işlemek için kullanışlıdır.
+
+// Node.js'deki Bufferlar, JavaScript motoru tarafından gerçekleştirilen ve nihayetinde CPU tarafından yürütülen görevlerin veya işlerin ikili eşdeğerleri olarak görülebilir. Node.js'de ikili verilerle çalışırken, esasen CPU'ya ham ikili bilgiler üzerinde işlemler gerçekleştirmesi talimatını verirsiniz. Bufferlar, bu ikili verileri bellekte düzenlemek ve yönetmek için bir yol sağlayarak JavaScript ortamında bunlarla verimli bir şekilde etkileşim kurmanıza olanak tanır. Yani bir anlamda Bufferlar, üst düzey JavaScript kodu ile CPU tarafından gerçekleştirilen alt düzey ikili işlemler arasında bir köprü görevi görür.
+
+//  Node.js'deki Bufferlar, bir bilgisayar sistemindeki diğer veriler gibi, sonuçta RAM'de (Rastgele Erişimli Bellek) saklanır. Node.js'de bir tampon oluşturduğunuzda, esasen ikili verilerinizi tutmak için RAM'de bir bellek bölümü ayırmış olursunuz. Bu bellek daha sonra üzerinde çalıştığınız ham ikili bilgileri depolamak için kullanılır. RAM uçucu bellek olduğundan, arabelleklerde depolanan veriler yalnızca Node.js işlemi çalıştığı sürece vardır ve işlem sonlandırıldığında veya bilgisayar kapatıldığında kaybolur. Bu, bilgisayar kapatıldığında bile varlığını sürdüren diskte depolanan verilerden farklıdır.
+
+// Neden ihtiyaç duyulur?
+
+// İkili Verilerin Verimli İşlenmesi: Tamponlar, Node.js'de ikili verileri verimli bir şekilde işlemek için bir yol sağlar. Doğrudan ham ikili bilgilerle çalışmanıza olanak tanıyarak dosyalardan okuma, ağlar üzerinden veri gönderme ve alma veya kriptografik işlemler gerçekleştirme gibi görevleri mümkün kılar.
+
+// Performans: Doğrudan tamponlarla çalışmak genellikle alternatif yöntemlerden daha performanslı olabilir. Tamponlar bellekteki ikili verilerin doğrudan bir temsilini sağladığından, bunlara daha üst düzey soyutlamalardan daha verimli bir şekilde erişilebilir ve manipüle edilebilir.
+
+// Birlikte çalışabilirlik: Tamponlar, ikili verilerle ilgilenen modüller ve kütüphanelerle etkileşim kurmak için kullanışlıdır. Node.js'deki birçok API ve harici kütüphaneler tampon formatında veri bekler veya döndürür, bu da tamponları bu tür verilerle çalışmak için doğal bir seçim haline getirir.
+
+// Veri Dönüşümü: Tamponlar, verileri farklı formatlar veya kodlamalar arasında dönüştürmek için kullanılabilir. Örneğin, tamponları kullanarak metin verilerini ikili biçime veya tam tersine dönüştürebilirsiniz.
+
+// Düşük Seviyeli İşlemler: Tamponlar belleğe düşük seviyeli erişim sağlayarak, bitsel işlemler veya özel veri serileştirme/seri dışı bırakma gibi bellek içeriğinin doğrudan manipülasyonunu gerektiren işlemleri gerçekleştirmenize olanak tanır.
+
+// Stream: Tamponlar genellikle verilerin işlendiği veya parçalar halinde aktarıldığı Stream senaryolarında kullanılır. Tamponlar, bir Streamtan okunurken veya bir Streama yazılırken bu veri parçalarını verimli bir şekilde tutabilir.
+
+// Stream Nedir?
+
+// Stream, tüm veri kümesini bir kerede aktarmak yerine, bir kaynak ile bir hedef arasında sürekli bir akışta veri aktarma yöntemidir. Verilerin daha küçük parçalara (veya "Streamlara") bölünmesini ve bu parçaların sırayla gönderilmesini içerir. Bu yaklaşımın daha az bellek kullanımı, daha hızlı başlangıç süreleri ve büyük veri kümelerini daha verimli bir şekilde işleme yeteneği gibi çeşitli avantajları vardır.
+
+// HTTP Yanıtları: Stream, web sunucularının tüm yanıtın oluşturulmasını beklemek yerine, ilk veri yığını kullanılabilir olur olmaz istemcilere (ör. web tarayıcıları) veri göndermeye başlamasına olanak tanır. Bu, web sayfaları için daha hızlı algılanan yükleme sürelerine ve daha iyi genel yanıt verebilirliğe yol açabilir.
+
+// Dosya I/O: Dosyadan okurken veya dosyaya yazarken Stream, uygulamaların verileri parçalar halinde işlemesine olanak tanıyarak büyük dosyaların tüm içeriği belleğe bir kerede yüklenmeden işlenmesini mümkün kılar. Bu özellikle günlük dosyalarını okuma veya multimedya dosyalarını işleme gibi görevler için kullanışlıdır.
+
+// Ağ İletişimi: Stream genellikle TCP veya UDP soketleri gibi ağ bağlantıları üzerinden veri göndermek ve almak için kullanılır. Stream, verileri daha küçük parçalar halinde göndererek, özellikle yavaş veya güvenilir olmayan ağ bağlantılarında gecikmeyi azaltmaya ve verimi artırmaya yardımcı olur.
+
+// Veri İşleme: Stream genellikle sensör beslemeleri, günlükler veya sosyal medya Streamları gibi kaynaklardan gelen verilerin ayrıştırılması ve dönüştürülmesi gibi gerçek zamanlı veri işleme görevleri için kullanılır. Uygulamalar, verileri küçük parçalar halinde geldikçe işleyerek değişikliklere ve güncellemelere hızlı bir şekilde yanıt verebilir.
