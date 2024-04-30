@@ -9,21 +9,21 @@
 
 const fs = require("node:fs");
 
-// fs.stat("../../../../../example.txt", (err, stats) => {
-//   if (err) {
-//     console.log(err);
-//     return;
-//   }
-//   console.log("Async Operations", stats);
-// });
+fs.stat("../../../../../example.txt", (err, stats) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  console.log("Async Operations", stats);
+});
 
 // Node.js ayrıca dosya istatistikleri hazır olana kadar iş parçacığını bloke eden bir senkronizasyon yöntemi de sağlar:
-// try {
-//   const stats = fs.statSync("../../../../../example.txt");
-//   console.log("Sync Operations", stats);
-// } catch (err) {
-//   console.error(err);
-// }
+try {
+  const stats = fs.statSync("../../../../../example.txt");
+  console.log("Sync Operations", stats);
+} catch (err) {
+  console.error(err);
+}
 
 // Dosya bilgileri stats değişkenine dahil edilmiştir. İstatistikleri kullanarak ne tür bilgiler elde edebiliriz? İşte bunlardan bir kaçı:
 
@@ -32,20 +32,20 @@ const fs = require("node:fs");
 // stats.size kullanarak bayt cinsinden dosya boyutu.
 
 // İsterseniz fs/promises modülü tarafından sunulan vaat tabanlı fsPromises.stat() yöntemini de kullanabilirsiniz:
-// const promiseFs = require("node:fs/promises");
+const promiseFs = require("node:fs/promises");
 
-// async function FileInfo() {
-//   try {
-//     const file = await promiseFs.stat("../../../../../example.txt");
-//     console.log("Promise-based Operation", file);
-//     console.log(`Q: Is this file? A: ${file.isFile()}`);
-//     console.log(`Q: Is this directory? A: ${file.isDirectory()}`);
-//     console.log(`Q: How many bytes is this file? A: ${file.size} byte`);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-// FileInfo();
+async function FileInfo() {
+  try {
+    const file = await promiseFs.stat("../../../../../example.txt");
+    console.log("Promise-based Operation", file);
+    console.log(`Q: Is this file? A: ${file.isFile()}`);
+    console.log(`Q: Is this directory? A: ${file.isDirectory()}`);
+    console.log(`Q: How many bytes is this file? A: ${file.size} byte`);
+  } catch (err) {
+    console.log(err);
+  }
+}
+FileInfo();
 
 // Node.js File Paths
 // Node.js'de path modülü, dosya ve dizin yolları ile çalışmak için yardımcı programlar sağlayan yerleşik bir modüldür. Özellikle yolların birleştirilmesi ve çözümlenmesi, yolların belirli kısımlarının çıkarılması ve dosya uzantılarının değiştirilmesi gibi görevler için kullanışlıdır. Path modülü tarafından sağlanan bazı yaygın işlevler aşağıda verilmiştir.
@@ -177,28 +177,28 @@ fs.readFile(examplePath, "utf-8", (err, data) => {
 
 // Node.js, readable stream, writeable stream, dublex stream ve transform stream dahil olmak üzere çeşitli stream türleri sağlar. Bir dosyadan veri okumak üzere bir readable akış oluşturmak için fs.createReadStream() işlevini kullanabilir ve ardından akışı diğer streama aktarabilir veya verileri gerektiği gibi işleyebilirsiniz:
 
-// const readStream = fs.createReadStream(
-//   "C:\\Users\\samet_000\\Desktop\\bigdata.txt",
-//   { highWaterMark: 65536 } // Default: 64 KB, Means 65536 bytes.
-// );
+const readStream = fs.createReadStream(
+  "C:\\Users\\samet_000\\Desktop\\bigdata.txt",
+  { highWaterMark: 65536 } // Default: 64 KB, Means 65536 bytes.
+);
 
-// // 'data' event: Bir veri yığını mevcut olduğunda yayılır.
-// readStream.on("data", (chunk) => {
-//   console.log("Received a chunk of data:", chunk.length, "bytes");
-// });
+// 'data' event: Bir veri yığını mevcut olduğunda yayılır.
+readStream.on("data", (chunk) => {
+  console.log("Received a chunk of data:", chunk.length, "bytes");
+});
 
-// // 'end' event: Dosyanın sonuna ulaşıldığında yayılır
-// readStream.on("end", () => {
-//   console.log("Finished reading the file.");
-// });
+// 'end' event: Dosyanın sonuna ulaşıldığında yayılır
+readStream.on("end", () => {
+  console.log("Finished reading the file.");
+});
 
-// readStream.on("error", (err) => {
-//   console.error("Error reading the file:", err);
-// });
+readStream.on("error", (err) => {
+  console.error("Error reading the file:", err);
+});
 
-// readStream.on("close", () => {
-//   console.log("Stream closed.");
-// });
+readStream.on("close", () => {
+  console.log("Stream closed.");
+});
 
 // Writing files with Node.js
 
