@@ -65,11 +65,11 @@ otherWorks();
 // Yukarıdaki ilk örnekte, moreWork() işlevinden önce console.log çağrılacaktır. İkinci örnekte fs.readFile() bloklama yapmaz, böylece JavaScript yürütmesi devam edebilir ve moreWork() ilk olarak çağrılır. moreWork() işlevinin dosya okuma işleminin tamamlanmasını beklemeden çalıştırılabilmesi, daha yüksek verim elde edilmesini sağlayan önemli bir tasarım tercihidir.
 
 // Eşzamanlılık ve Verim
-// Node.js'de JavaScript yürütme tek iş parçacıklıdır, bu nedenle eşzamanlılık, olay döngüsünün diğer işleri tamamladıktan sonra JavaScript geri arama işlevlerini yürütme kapasitesini ifade eder. Eşzamanlı bir şekilde çalışması beklenen herhangi bir kod, I/O gibi JavaScript dışı işlemler gerçekleşirken olay döngüsünün çalışmaya devam etmesine izin vermelidir.
+// Node.js'de JavaScript yürütme tek iş parçacıklıdır, bu nedenle eşzamanlılık, event loopnün diğer işleri tamamladıktan sonra JavaScript geri arama işlevlerini yürütme kapasitesini ifade eder. Eşzamanlı bir şekilde çalışması beklenen herhangi bir kod, I/O gibi JavaScript dışı işlemler gerçekleşirken event loopnün çalışmaya devam etmesine izin vermelidir.
 
 // Örnek olarak, bir web sunucusuna yapılan her bir isteğin tamamlanmasının 50 ms sürdüğü ve bu 50 ms'nin 45 ms'sinin asenkron olarak yapılabilecek veritabanı I/O'si olduğu bir durumu ele alalım. Bloklamayan asenkron işlemleri seçmek, diğer istekleri işlemek için istek başına bu 45 ms'yi serbest bırakır. Bu, sadece bloklama yöntemleri yerine bloklama olmayan yöntemleri kullanmayı seçerek kapasitede önemli bir fark yaratır.
 
-// Olay döngüsü, eş zamanlı çalışmayı idare etmek için ek iş parçacıklarının oluşturulabildiği diğer birçok dildeki modellerden farklıdır.
+// event loop, eş zamanlı çalışmayı idare etmek için ek iş parçacıklarının oluşturulabildiği diğer birçok dildeki modellerden farklıdır.
 
 // Dangers of Mixing Blocking and Non-Blocking Code
 // I/O ile uğraşırken kaçınılması gereken bazı kalıplar vardır. Bir örneğe bakalım:
@@ -132,30 +132,5 @@ fs.readFile("/file.json", (err, data) => {
 // Geri aramalara alternatifler
 // ES6'dan başlayarak JavaScript, geri aramaları kullanmayı içermeyen asenkron kodlarda bize yardımcı olan çeşitli özellikler sundu: Promises (ES6) ve Async/Await (ES2017).
 
-// The Event Loop
-// Olay döngüsü, Node.js'in - JavaScript'in tek iş parçacıklı olmasına rağmen - işlemleri mümkün olduğunca sistem çekirdeğine yükleyerek tıkanmayan I/O işlemleri gerçekleştirmesini sağlayan şeydir.
-
-// Modern çekirdeklerin çoğu çok iş parçacıklı olduğundan, arka planda yürütülen birden fazla işlemi idare edebilirler. Bu işlemlerden biri tamamlandığında, çekirdek Node.js'ye uygun geri aramanın sonunda yürütülmek üzere yoklama kuyruğuna eklenebileceğini söyler. Bunu bu konunun ilerleyen bölümlerinde daha ayrıntılı olarak açıklayacağız.
-
-// Call Stack: Çağrı yığını, Node.js tarafından fonksiyon çağrılarını takip etmek için kullanılan bir veri yapısıdır. Bir işlevi çağırdığınızda, işlev çağrı yığınının en üstüne eklenir. Bu işlev tamamlandığında, yığından kaldırılır. Olay döngüsü, belirli bir kodu çalıştırmanın ne zaman güvenli olduğunu belirlemek için çağrı yığınıyla etkileşime girer.
-
-// Callback Queue: Eşzamansız işlemler tamamlandığında (bir dosyayı okumak veya bir HTTP isteğinden yanıt almak gibi), geri arama işlevleri hemen yürütülmez. Bunun yerine, geri arama kuyruğu olarak bilinen bir kuyruğa yerleştirilirler.
-
-// Event Table: Olay tablosu, Node.js'nin izlenmek üzere kaydedilen olayları takip ettiği yerdir. Bunlar I/O olaylarını (dosya okumaları veya ağ istekleri gibi) ve zamanlayıcı olaylarını (setTimeout veya setInterval gibi) içerebilir.
-
-// Event Loop Phases:
-// Timers Phase:  Süresi dolan (setTimeout veya setInterval tarafından ayarlanan) zamanlayıcı olaylarını kontrol eder.
-// Pending I/O Phase: Tamamlanan I/O olaylarını işler (örneğin, bir dosya okuma veya bir ağ isteği).
-// Idle, Prepare Phase: Belirli uç durumlar ve performans optimizasyonları için kullanılan dahili aşamalar.
-// Poll Phase: Yeni I/O olaylarını kontrol eder ve geri çağırmalarını çalıştırır. Yeni olay bulunmazsa, olayların gerçekleşmesini bekler.
-// Check Phase: setImmediate() geri çağrılarını yürütür.
-// Close Callbacks Phase: Bir soket kapatıldığında olduğu gibi 'close' olay geri çağrılarını yürütür.
-
-// Event Loop Operations
-// Olay döngüsü, süresi dolan zamanlayıcıları kontrol ettiği ve geri çağrılarını yürüttüğü "Zamanlayıcılar" aşamasında başlar.
-// Daha sonra tamamlanan I/O işlemlerini ve bunların geri çağrılarını işlemek için "Bekleyen I/O" aşamasına geçer.
-// Sonraki aşama, yeni olayları beklediği "Poll" aşamasıdır. Hiçbir olay yoksa, yeni olaylar mevcut olana kadar bekler.
-// Olaylar mevcut olduğunda, bunları işlemek için uygun aşamaya geçer.
-// Bu süreç sonsuza kadar devam eder ve Node.js'nin uygulamayı duyarlı tutarken eşzamansız işlemleri verimli bir şekilde ele almasına olanak tanır.
-
-// Özetle, Node.js'deki olay döngüsü, çeşitli kaynaklardan gelen olayları işleyerek, ilişkili geri arama işlevlerini yürüterek ve uygulamanın duyarlı kalmasını sağlayarak eşzamansız işlemleri yönetmekten sorumlu çok önemli bir bileşendir. Bunu bir dizi aşama ve çağrı yığını, geri arama kuyruğu ve olay tablosu ile etkileşim yoluyla gerçekleştirir.
+// The Node.js Event Loop
+// Event loop, Node.js'in - JavaScript'in tek iş parçacıklı olmasına rağmen - işlemleri mümkün olduğunca sistem çekirdeğine yükleyerek tıkanmayan I/O işlemleri gerçekleştirmesini sağlayan şeydir. Modern çekirdeklerin çoğu çok iş parçacıklı olduğundan, arka planda yürütülen birden fazla işlemi idare edebilirler. Bu işlemlerden biri tamamlandığında, çekirdek Node.js'ye uygun geri aramanın sonunda yürütülmek üzere yoklama kuyruğuna eklenebileceğini söyler.
