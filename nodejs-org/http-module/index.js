@@ -5,25 +5,26 @@ const host = '127.0.0.1';
 const port = 3000;
 
 const server = createServer((req, res) => {
-    const method = req.method;
-    const url = req.url;
-    const headers = req.headers;
-    const httpVersion = req.httpVersion;
-    const socket = req.socket;
-    
-    console.log(`A ${method} request has been received http://localhost:3000${url}`);
-    console.log(headers);
-    req.pause();
-    console.log(httpVersion);
-    console.log(socket);
-    
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello World!');
-})
+  const method = req.method;
+  const url = req.url;
+  const headers = req.headers;
+  const httpVersion = req.httpVersion;
+  const socket = req.socket;
+
+  console.log(
+    `A ${method} request has been received http://localhost:3000${url}`
+  );
+  //   console.log(headers);
+  //   console.log(httpVersion);
+  //   console.log(socket);
+
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello World!');
+});
 
 server.listen(port, host, () => {
-    console.log(`Server running at http://${host}:${port}`);
-})
+  console.log(`Server running at http://${host}:${port}`);
+});
 
 // http'nin createServer() yöntemi yeni bir HTTP sunucusu oluşturur ve bunu döndürür. Sunucu, belirtilen bağlantı noktası ve ana bilgisayar adını dinleyecek şekilde ayarlanır (Eğer host parametresi verilmezse!). Sunucu hazır olduğunda, bu durumda sunucunun çalıştığını bize bildiren geri arama işlevi çağrılır.
 
@@ -34,9 +35,9 @@ server.listen(port, host, () => {
 
 // HTTP İsteği: IncomingMessage nesnesi, sunucu tarafından bir istemciden alınan HTTP isteğini temsil eder.
 
-// Okunabilir Akış: Okunabilir bir akımdır, yani istemciden gelen verileri read(), on('data') ve on('end') gibi yöntemleri kullanarak tüketebilirsiniz.
+// Readable Stream: Okunabilir bir akışdır, yani istemciden gelen verileri read(), on('data') ve on('end') gibi yöntemleri kullanarak tüketebilirsiniz.
 
-// Özellikler: Yöntem, url, başlıklar, statusCode, statusMessage, httpVersion, istemci, soket, vb. gibi çeşitli özellikleri ortaya çıkararak istek hakkında ayrıntılar sağlar.
+// Özellikler: Yöntem, url, başlıklar, statusCode, statusMessage, httpVersion, client, socket, vb. gibi çeşitli özellikleri ortaya çıkararak istek hakkında ayrıntılar sağlar.
 
 // Olay Yayıcı: EventEmitter sınıfından miras alır ve istek tarafından yayılan 'data', 'end' ve 'close' gibi olayları dinlemenize ve işlemenize olanak tanır.
 
@@ -57,11 +58,9 @@ server.listen(port, host, () => {
 // req.socket : Bağlantı ile ilişkili net.Socket nesnesini temsil eder.
 // req.complete : İsteğin tamamen alınıp alınmadığını gösteren bir boolean.
 
-
 // 2. Methods
 
-// 
-
+//
 
 // http.ServerResponse Object
 // Node.js'deki ServerResponse nesnesi, gelen bir HTTP isteğine yanıt olarak sunucunun istemciye geri gönderdiği HTTP yanıtını temsil eder. İstenen verileri, durum kodunu, başlıkları ve diğer gerekli bilgileri içeren HTTP yanıtını oluşturmak ve göndermek için kullanılır.
@@ -70,7 +69,7 @@ server.listen(port, host, () => {
 
 // Yanıt Gönderme: ServerResponse nesnesinin birincil amacı yanıtları istemciye geri göndermektir. Bu, yanıt gövdesinin gönderilmesini, başlıkların ayarlanmasını ve durum kodunun belirtilmesini içerir.
 
-// Yazılabilir Akış: ServerResponse nesnesi yazılabilir bir akımdır, yani write(), end() ve send() gibi yöntemleri kullanarak ona veri yazabilirsiniz. Bu, gerektiğinde yanıt gövdesini parçalar halinde göndermenize olanak tanır; bu da büyük dosyaların veya verilerin akışı için yararlı olabilir.
+// Writeable Stream: ServerResponse nesnesi yazılabilir bir akışdır, yani write(), end() ve send() gibi yöntemleri kullanarak ona veri yazabilirsiniz. Bu, gerektiğinde yanıt gövdesini parçalar halinde göndermenize olanak tanır; bu da büyük dosyaların veya verilerin akışı için yararlı olabilir.
 
 // Başlıkları Ayarlama: setHeader() veya writeHead() gibi yöntemleri kullanarak yanıt üstbilgilerini ayarlayabilirsiniz. Bu üstbilgiler, içerik türü, içerik uzunluğu, önbelleğe alma yönergeleri ve daha fazlası gibi yanıt hakkında meta veriler sağlar.
 
@@ -82,7 +81,6 @@ server.listen(port, host, () => {
 
 // Özetle, Node.js'deki ServerResponse nesnesi sunucudan istemciye HTTP yanıtları oluşturmak ve göndermek için kullanılır. Başlıkları, durum kodlarını ayarlamak ve yanıt verilerini göndermek için yöntemler ve özellikler sağlar, bu da onu Node.js'de web sunucuları oluşturmanın çok önemli bir bileşeni haline getirir.
 
-
 // Node.js sunucu yanıtınızda başlıkları veya durum kodunu açıkça ayarlamazsanız, sunucu yine de doğru şekilde çalışacak ve istemciye bir yanıt gönderecektir. Ancak, açıkça ayarlamadıysanız sunucu tarafından uygulanan varsayılan değerler vardır:
 
 // Durum Kodu: response.statusCode veya response.writeHead() kullanarak açıkça bir durum kodu belirlemezseniz, Node.js varsayılan olarak 200 OK durum kodunu belirleyecektir. Bu, istemciye isteğin başarılı olduğunu gösterir.
@@ -93,11 +91,9 @@ server.listen(port, host, () => {
 
 // Tarayıcıda gözlemlediğiniz davranış, varsayılan davranışına ve sunucudan gelen yanıtı nasıl yorumladığına bağlı olarak değişebilir. Bazı tarayıcılar eksik üstbilgileri veya durum kodlarını incelikle ele alıp içeriği doğru şekilde görüntüleyebilirken, diğerleri daha katı yorumlama ve davranışa sahip olabilir. Bununla birlikte, farklı istemciler ve tarayıcılar arasında uyumluluk ve tutarlılık sağlamak için, sunucu yanıtlarınızda her zaman gerekli başlıkları ve durum kodlarını açıkça ayarlamanız önerilir.
 
-
 // İşte Node.js'deki ServerResponse nesnesinin en önemli özelliklerinden ve yöntemlerinden bazıları:
 
-// Properties 
-
+// Properties
 
 // Methods
 
@@ -105,7 +101,6 @@ server.listen(port, host, () => {
 // setHeader(name, value): Yanıtta tek bir başlık ayarlar. Başlık zaten mevcutsa, değeri değiştirilecektir.
 // write(chunk, [encoding], [callback]): Yanıt gövdesine veri yazar.
 // end([data], [encoding], [callback]): Yanıtı sonlandırır ve kalan verileri gönderir. Yanıtı tamamlamak için bu yöntem çağrılmalıdır.
-
 
 // ** NOT ** :  Node.js sunucunuzda "Content-Type" başlığını açıkça ayarlamadığınız halde HTML içeriği görüyorsanız, bunun nedeni muhtemelen HTTP sunucularından yanıt aldıklarında web tarayıcılarının varsayılan davranışıdır.
 
