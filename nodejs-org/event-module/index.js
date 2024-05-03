@@ -25,15 +25,15 @@ const olayFunc = () => {
 };
 myEmitter.on('olay', olayFunc);
 
-// Event Emission: Bir EventEmitter nesnesinin emit() yöntemini kullanarak olayları yayabilirsiniz. Bir olay yayıldığında, o olay için eklenmiş tüm dinleyiciler eşzamanlı olarak çağrılır. Olayın adı ilk bağımsız değişken olarak geçirilir. Emit için sağlanan diğer tüm ek bağımsız değişkenler "dinleyici" işlevlerine aktarılacaktır:
+// Event Emission: Bir EventEmitter nesnesinin emit() yöntemini kullanarak olayları yayabilirsiniz. Bir olay yayıldığında, o olay için eklenmiş tüm dinleyiciler eşzamanlı olarak çağrılır. Olayın adı ilk bağımsız değişken olarak geçirilir. Emit için sağlanan diğer tüm ek bağımsız parametreler "listeners" fonksiyonlarına aktarılacaktır:
 myEmitter.emit('olay');
 
 // Listeners Kaldırma: removeListener() yöntemini kullanarak belirli olay dinleyicilerini kaldırabilir veya removeAllListeners() yöntemini kullanarak belirli bir olay için tüm dinleyicileri kaldırabilirsiniz. Bellek sızıntılarını önlemek için gereksiz dinleyicileri kaldırmak önemlidir:
 myEmitter.removeListener('olay', olayFunc);
 
-// Not: Geri arama işlevi (örnekte olayFunc) burada çok önemlidir çünkü hangi dinleyicinin kaldırılacağını tanımlar. Bu olmadan, Node.js belirtilen olaydan hangi dinleyici işlevinin çıkarılacağını bilemez. Bu aslında olay gerçekleştiğinde belirli bir fonksiyonun çağrılmasını engellemenin bir yoludur.
+// Not: Geri arama işlevi (örnekte olayFunc) burada çok önemlidir çünkü hangi listener'ın kaldırılacağını tanımlar. Bu olmadan, Node.js belirtilen olaydan hangi dinleyici işlevinin çıkarılacağını bilemez. Bu aslında olay gerçekleştiğinde belirli bir fonksiyonun çağrılmasını engellemenin bir yoludur.
 
-// Error Handling: EventEmitter hata olayları için yerleşik desteğe sahiptir. Bir 'hata' olayı yayılırsa ve hiçbir dinleyici eklenmezse, hata atılır, bu nedenle hataları uygun şekilde yakalamak çok önemlidir. Aksi halde uygulamanız çökebilir.
+// Error Handling: EventEmitter hata olayları için yerleşik desteğe sahiptir. Bir 'error' olayı yayılırsa ve hiçbir dinleyici eklenmezse, hata atılır, bu nedenle hataları uygun şekilde yakalamak çok önemlidir. Aksi halde uygulamanız çökebilir.
 myEmitter.on('error', (err) => {
   console.error('Bir hatayla karsilasildi', err);
 });
@@ -58,3 +58,33 @@ myEmitter2.once('olay2', () => {
 myEmitter2.emit('olay2'); // Hello World! and eventNames none.
 
 myEmitter2.emit('olay2'); // eventNames has error event! Think about it. Why?
+
+// EventEmitter Inheritance with Extends Method
+// Node.js'deki EventEmitter kalıtımı, Node.js'nin yerleşik EventEmitter sınıfının olay odaklı yeteneklerini miras alan özel sınıflar oluşturmanıza olanak tanır. Bu sayede kendi nesneleriniz için özel olaylar ve olay işleme davranışları tanımlayabilirsiniz.
+
+// 1. Özel Sınıf Oluşturma: İlk olarak, EventEmitter'ı genişleten özel bir sınıf tanımlarsınız.
+
+// 2. Özel Olayları Tanımlama: Özel sınıfınız içinde, EventEmitter'dan miras alınan emit yöntemini kullanarak kendi olaylarınızı tanımlayabilirsiniz. Bu, özel sınıfınızın örneklerinin bu özel olayları yaymasına olanak tanır:
+
+class MyEmitter extends EventEmitter {
+  greet() {
+    this.emit('greet');
+  }
+}
+
+// 3. Özel Olayları Dinleme: EventEmitter'dan miras alınan on yöntemini kullanarak özel olaylarınıza dinleyici işlevleri de ekleyebilirsiniz:
+
+const myEmitter3 = new MyEmitter();
+
+myEmitter3.on('greet', () => {
+  console.log('Im a custom class event!');
+});
+
+myEmitter3.greet();
+
+// Özetle, EventEmitter sınıfını genişleten MyEmitter adında bir sınıf tanımlıyoruz. Bu, MyEmitter'ın emit yöntemi de dahil olmak üzere EventEmitter'ın tüm yöntemlerini ve özelliklerini miras aldığı anlamına gelir. MyEmitter sınıfı içinde, greet() adında bir yöntem tanımlarız. Bu yöntemin içinde this.emit('greet') öğesini kullandığımızda, aslında "Bir 'greet' olayı yaymak için EventEmitter sınıfı tarafından sağlanan emit yöntemini kullanın" demiş oluruz. Böylece, MyEmitter'ın bir örneği greet() yöntemini çağırdığında, kodun başka bir yerinde dinlenebilecek ve işlenebilecek bir 'greet' olayı yayar.
+
+// Bu, JavaScript'te kalıtımın gücünü göstermektedir. EventEmitter sınıfını genişleterek, bu sınıfın işlevselliğine erişebilir ve kendi özel sınıfımıza sorunsuz bir şekilde entegre ederek olay özelliklerine sahip nesneler oluşturabiliriz.
+
+// Soru: Neden alt sınıfı genişletirken super() çağrısı kullanmadık?
+// Cevap: Bir alt sınıfın kurucusunda super() işlevini çağırmak JavaScript kalıtımında yaygın bir uygulama olsa da, Node.js'deki EventEmitter ile bunun genellikle gerekli olmadığı, çünkü EventEmitter'ın tipik olarak herhangi bir özel başlatma mantığı gerektirmediği anlamına gelir. EventEmitter'ı basitçe genişletebilir ve açık üst sınıf kurucu çağrılarına gerek kalmadan olay işleme yeteneklerini alt sınıfta kullanmaya başlayabilirsiniz.
