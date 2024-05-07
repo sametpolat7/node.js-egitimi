@@ -65,9 +65,7 @@ const server = net.createServer((socket) => {
   console.log('A client connected!');
 
   socket.on('data', (data) => {
-    console.log(`Received: ${data}`);
-
-    socket.write(`Echo: ${data}`);
+    console.log(`Received from client: ${data}`);
   });
   socket.on('end', () => {
     console.log('A client disconnected!');
@@ -81,7 +79,7 @@ server.listen(port, hostname, () => {
   console.log(`Server listen on http://${hostname}:${port}`);
 });
 
-// Kodu bu şekilde çalıştırdığınız da hata alacaksınız! Çünkü;
+// Bu server'a tarayıcı üzerinden bir istek yolladığınızda (bu şekliyle!) hata alacaksınız! Çünkü;
 
 // Bu durumda, uyguladığınız sunucu bir HTTP sunucusu değil, bir TCP sunucusudur. Bu nedenle, tarayıcınızda 127.0.0.1:3000 adresine erişmeye çalıştığınızda, tarayıcı server'a bir HTTP request'i gönderir ve HTTP response'u bekler. Ancak, server'ınız HTTP request'lerini işlemek için tasarlanmamıştır, bu nedenle geçerli bir HTTP response'u oluşturamaz.
 
@@ -90,13 +88,9 @@ server.listen(port, hostname, () => {
 const client = new net.Socket();
 
 client.connect(port, hostname, () => {
-  console.log('Connected to server!');
+  console.log('The client has connected to server!');
 
   client.write('Hello, server! Im Client-1!');
-});
-
-client.on('data', (data) => {
-  console.log(`Received data from server: ${data}`);
 });
 
 client.on('close', () => {
@@ -106,8 +100,6 @@ client.on('close', () => {
 client.on('error', (err) => {
   console.error(err);
 });
-
-//
 
 // Peki HTTP modülü ile zaten sunucu oluşturabiliyorduk. Neden net modülü ile TCP sunucusuna ihtiyacımız olsun ki?
 

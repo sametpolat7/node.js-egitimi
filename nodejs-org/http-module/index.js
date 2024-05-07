@@ -1,111 +1,46 @@
-// Example 1
-const { createServer } = require('node:http');
+// Create a Server
+const http = require('node:http');
 
-const host = '127.0.0.1';
-const port = 3000;
+// Node.js'de http.createServer() yöntemi, bir EventEmitter olan http.Server sınıfının bir örneğini döndürür. createServer() yöntemine bir geri arama işlevi aktararak, aslında 'request' olayı için bir dinleyici kurmuş olursunuz. Böylece, sunucu tarafından bir HTTP isteği alındığında, sağladığınız geri arama işlevi yürütülecek, isteği işleyecek ve uygun yanıtı üretecektir. Bu, HTTP sunucuları oluşturmak için Node.js'de yaygın bir modeldir.
 
-const server = createServer((req, res) => {
-  const method = req.method;
-  const url = req.url;
-  const headers = req.headers;
-  const httpVersion = req.httpVersion;
-  const socket = req.socket;
+const server = http.createServer((req, res) => {
+  // Node.js'de, gelen bir HTTP isteğini işlerken, 'request' nesnesi üzerindeki özellikler aracılığıyla HTTP yöntemi (GET, POST, vb.) veya isteğin URL'si gibi yararlı bilgilere erişebilirsiniz.
 
-  console.log(
-    `A ${method} request has been received http://localhost:3000${url}`
-  );
-  //   console.log(headers);
-  //   console.log(httpVersion);
-  //   console.log(socket);
+  // Request nesnesi IncomingMessage'ın bir örneğidir.
 
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.end('Hello World!');
+  const { method, url, headers, rawHeaders } = req;
+  console.log(method);
+  console.log(url);
+
+  //   Node.js'de, istek nesnesinin headers özelliği istekle birlikte gönderilen tüm HTTP başlıklarını içerir. Küçük harfli adlarını kullanarak tek tek başlıklara erişebilirsiniz. Örneğin:
+
+  const userAgent = headers['user-agent'];
+  console.log(userAgent);
+  console.log('Headers: ', headers);
+
+  //  Client'ın gerçekte nasıl gönderdiğine bakılmaksızın tüm başlıklar küçük harfle temsil edilir. Bu, üstbilgileri ayrıştırma işlemini basitleştirir. Tanımlama bilgileri veya özel başlıklar gibi bir başlık, requestte birden çok kez görünüyorsa, değerleri genellikle virgülle ayrılmış tek bir dizede birleştirilir. Ancak, bu normalleştirme olmadan ham başlıklara erişmeniz gerekiyorsa, istekle birlikte gönderilen ham HTTP başlıklarını temsil eden bir dizi içeren "rawHeaders" özelliğini kullanabilirsiniz:
+
+  console.log('RawHeaders: ', rawHeaders);
+
+  // Bir POST veya PUT request'i alırken, istek gövdesi (request body) uygulamanız için önemli olabilir. Gövde verilerine ulaşmak, istek başlıklarına (request header) erişmekten biraz daha karmaşıktır. Bir işleyiciye aktarılan (req, res geri çağrısı) request nesnesi ReadableStream API uygular. Bu stream, diğer akışlar gibi dinlenebilir veya başka bir yere aktarılabilir. Akışın 'data' ve 'end' olaylarını dinleyerek verileri doğrudan akıştan alabiliriz.
+
+  // Her 'data' olayında yayılan yığın bir buffer'dır. Yapılacak en iyi uygulama, verileri bir arrayde toplamak, ardından 'end' olayıyla birlikte concat etmek ve stringleştirmektir:
+
+  const body = [];
+
+  req.on('data', (chunk) => {
+    console.log(chunk);
+  });
+
+  req.on('end', () => {
+    console.log('Chunk its over!');
+  });
 });
 
-server.listen(port, host, () => {
-  console.log(`Server running at http://${host}:${port}`);
+// Evet, kesinlikle! Sunucuyu http.createServer() ile oluşturduktan sonra, gelen HTTP isteklerini dinlemeye başlamak için sunucu nesnesinde listen() yöntemini çağırmanız gerekir. Genellikle, sunucunun dinlemesini istediğiniz port numarasını listen() yöntemine argüman olarak belirtirsiniz.
+
+const PORT = 3000;
+
+server.listen(PORT, () => {
+  console.log('Server is listening on PORT:3000');
 });
-
-// http'nin createServer() yöntemi yeni bir HTTP sunucusu oluşturur ve bunu döndürür. Sunucu, belirtilen bağlantı noktası ve ana bilgisayar adını dinleyecek şekilde ayarlanır (Eğer host parametresi verilmezse!). Sunucu hazır olduğunda, bu durumda sunucunun çalıştığını bize bildiren geri arama işlevi çağrılır.
-
-// Yeni bir request alındığında, request olayı çağrılır ve iki nesne sağlar: bir request (bir http.IncomingMessage nesnesi) ve bir response (bir http.ServerResponse nesnesi).
-
-// http.IncomingMessage Object
-// Node.js'deki IncomingMessage nesnesi, gelen bir HTTP istek mesajını temsil eder. Node.js sunucunuz bir istemciden (örneğin bir web tarayıcısı) HTTP isteği aldığında, bu isteği temsil etmek üzere bir IncomingMessage nesnesi oluşturulur. Bu nesne, gelen isteğin istek yöntemi, URL, başlıklar ve istek gövdesi (varsa) gibi çeşitli ayrıntılarına ve özelliklerine erişim sağlar.
-
-// HTTP İsteği: IncomingMessage nesnesi, sunucu tarafından bir istemciden alınan HTTP isteğini temsil eder.
-
-// Readable Stream: Okunabilir bir akışdır, yani istemciden gelen verileri read(), on('data') ve on('end') gibi yöntemleri kullanarak tüketebilirsiniz.
-
-// Özellikler: Yöntem, url, başlıklar, statusCode, statusMessage, httpVersion, client, socket, vb. gibi çeşitli özellikleri ortaya çıkararak istek hakkında ayrıntılar sağlar.
-
-// Olay Yayıcı: EventEmitter sınıfından miras alır ve istek tarafından yayılan 'data', 'end' ve 'close' gibi olayları dinlemenize ve işlemenize olanak tanır.
-
-// İstek Gövdesine Erişim: İsteğin bir gövdesi varsa (örneğin, form verileri veya JSON yükü içeren bir POST isteği durumunda), IncomingMessage nesnesi aracılığıyla istek gövdesine erişebilirsiniz.
-
-// HTTP Modülünün bir parçasıdır: IncomingMessage nesnesi Node.js'deki HTTP modülünün bir parçasıdır ve sunucunuz bir HTTP isteği aldığında otomatik olarak oluşturulur.
-
-// Özetle, IncomingMessage nesnesi Node.js sunucunuzda gelen HTTP isteklerine erişmek ve bunları işlemek için uygun bir arayüz sağlar. İstek ayrıntılarına, başlıklara ve gövdeye erişmenizi sağlayarak istemci isteklerini etkili bir şekilde işlemenize ve yanıtlamanıza olanak tanır.
-
-// İşte Node.js'deki IncomingMessage nesnesinin bazı önemli özellikleri ve yöntemleri:
-
-// 1. Properties
-
-// req.method :  İstekte kullanılan HTTP yöntemini temsil eder (örneğin, GET, POST, PUT, DELETE).
-// req.url : İsteğin URL'sini temsil eder.
-// req.headers : İstekle birlikte gönderilen üstbilgileri içeren bir nesne.
-// req.httpVersion : İsteğin HTTP sürümünü temsil eder.
-// req.socket : Bağlantı ile ilişkili net.Socket nesnesini temsil eder.
-// req.complete : İsteğin tamamen alınıp alınmadığını gösteren bir boolean.
-
-// 2. Methods
-
-//
-
-// http.ServerResponse Object
-// Node.js'deki ServerResponse nesnesi, gelen bir HTTP isteğine yanıt olarak sunucunun istemciye geri gönderdiği HTTP yanıtını temsil eder. İstenen verileri, durum kodunu, başlıkları ve diğer gerekli bilgileri içeren HTTP yanıtını oluşturmak ve göndermek için kullanılır.
-
-// ServerResponse nesnesi ile ilgili bazı önemli noktalar aşağıda verilmiştir:
-
-// Yanıt Gönderme: ServerResponse nesnesinin birincil amacı yanıtları istemciye geri göndermektir. Bu, yanıt gövdesinin gönderilmesini, başlıkların ayarlanmasını ve durum kodunun belirtilmesini içerir.
-
-// Writeable Stream: ServerResponse nesnesi yazılabilir bir akışdır, yani write(), end() ve send() gibi yöntemleri kullanarak ona veri yazabilirsiniz. Bu, gerektiğinde yanıt gövdesini parçalar halinde göndermenize olanak tanır; bu da büyük dosyaların veya verilerin akışı için yararlı olabilir.
-
-// Başlıkları Ayarlama: setHeader() veya writeHead() gibi yöntemleri kullanarak yanıt üstbilgilerini ayarlayabilirsiniz. Bu üstbilgiler, içerik türü, içerik uzunluğu, önbelleğe alma yönergeleri ve daha fazlası gibi yanıt hakkında meta veriler sağlar.
-
-// Durum Kodunu Ayarlama: statusCode özelliğini kullanarak veya writeHead() yöntemine argüman olarak ileterek yanıtın durum kodunu ayarlayabilirsiniz. Durum kodu, isteğin başarılı veya başarısız olduğunu gösterir (örneğin, "OK" için 200, "Not Found" için 404, vb.)
-
-// Yanıtı Sonlandırın: Yanıtı oluşturmayı bitirdiğinizde, yanıtın tamamlandığını ve istemciye gönderilmesi gerektiğini bildirmek için end() yöntemini çağırmalısınız.
-
-// Olaylar: ServerResponse nesnesi, yanıt istemciye tamamen gönderildiğinde 'finish' ve temel bağlantı kapatıldığında 'close' gibi olaylar yayar.
-
-// Özetle, Node.js'deki ServerResponse nesnesi sunucudan istemciye HTTP yanıtları oluşturmak ve göndermek için kullanılır. Başlıkları, durum kodlarını ayarlamak ve yanıt verilerini göndermek için yöntemler ve özellikler sağlar, bu da onu Node.js'de web sunucuları oluşturmanın çok önemli bir bileşeni haline getirir.
-
-// Node.js sunucu yanıtınızda başlıkları veya durum kodunu açıkça ayarlamazsanız, sunucu yine de doğru şekilde çalışacak ve istemciye bir yanıt gönderecektir. Ancak, açıkça ayarlamadıysanız sunucu tarafından uygulanan varsayılan değerler vardır:
-
-// Durum Kodu: response.statusCode veya response.writeHead() kullanarak açıkça bir durum kodu belirlemezseniz, Node.js varsayılan olarak 200 OK durum kodunu belirleyecektir. Bu, istemciye isteğin başarılı olduğunu gösterir.
-
-// Başlıklar: response.setHeader() veya response.writeHead() kullanarak herhangi bir başlık ayarlamazsanız, Node.js yine de yanıtla birlikte bazı varsayılan başlıklar gönderecektir. Bunlar, belirtilmezse varsayılan olarak text/html olan Content-Type gibi başlıkları ve önbelleğe alma ve bağlantı işleme ile ilgili diğer başlıkları içerebilir.
-
-// Sunucu bu varsayılan değerlerle doğru şekilde çalışabilse de, yanıtınızda durum kodunu ve ilgili tüm başlıkları açıkça ayarlamak genellikle iyi bir uygulamadır. Bu, istemcinin yanıt hakkında içerik türü ve isteğin durumu gibi doğru ve anlamlı bilgiler almasını sağlar.
-
-// Tarayıcıda gözlemlediğiniz davranış, varsayılan davranışına ve sunucudan gelen yanıtı nasıl yorumladığına bağlı olarak değişebilir. Bazı tarayıcılar eksik üstbilgileri veya durum kodlarını incelikle ele alıp içeriği doğru şekilde görüntüleyebilirken, diğerleri daha katı yorumlama ve davranışa sahip olabilir. Bununla birlikte, farklı istemciler ve tarayıcılar arasında uyumluluk ve tutarlılık sağlamak için, sunucu yanıtlarınızda her zaman gerekli başlıkları ve durum kodlarını açıkça ayarlamanız önerilir.
-
-// İşte Node.js'deki ServerResponse nesnesinin en önemli özelliklerinden ve yöntemlerinden bazıları:
-
-// Properties
-
-// Methods
-
-// writeHead(statusCode, [statusMessage], [headers]): Yanıt için durum kodunu, durum mesajını ve başlıkları ayarlar.
-// setHeader(name, value): Yanıtta tek bir başlık ayarlar. Başlık zaten mevcutsa, değeri değiştirilecektir.
-// write(chunk, [encoding], [callback]): Yanıt gövdesine veri yazar.
-// end([data], [encoding], [callback]): Yanıtı sonlandırır ve kalan verileri gönderir. Yanıtı tamamlamak için bu yöntem çağrılmalıdır.
-
-// ** NOT ** :  Node.js sunucunuzda "Content-Type" başlığını açıkça ayarlamadığınız halde HTML içeriği görüyorsanız, bunun nedeni muhtemelen HTTP sunucularından yanıt aldıklarında web tarayıcılarının varsayılan davranışıdır.
-
-// Tarayıcı "Content-Type" başlığı olmayan bir yanıt aldığında, yanıt gövdesinin yapısı ve isteğin bağlamı gibi çeşitli faktörlere dayanarak içerik türünü çıkarmaya çalışır. Yanıt gövdesinde HTML benzeri içerik tespit ederse (örneğin, <html>, <head> veya <body> etiketleri bulursa), içeriğin HTML olduğunu varsayabilir ve buna göre işleyebilir.
-
-// Bu davranış, sunucu içerik türünü açıkça belirtmese bile içeriği oluşturmaya çalışarak daha iyi bir kullanıcı deneyimi sağlamayı amaçlayan web tarayıcılarının bir özelliğidir. Ancak, bu davranışın tarayıcılar arasında farklılık gösterebileceğini ve özellikle yanıt içeriği aslında HTML değilse her zaman istenen sonuçları vermeyebileceğini unutmamak önemlidir.
-
-// İçerik türlerinin düzgün bir şekilde işlenmesini sağlamak ve tarayıcı tarafından beklenmedik bir şekilde oluşturulmasını önlemek istiyorsanız, sunucu yanıtlarınızda her zaman uygun "Content-Type" başlığını ayarlamak iyi bir uygulamadır. HTML içeriği için, içerik türünü açıkça belirtmek üzere "Content-Type" başlığını genellikle "text/html" olarak ayarlarsınız.

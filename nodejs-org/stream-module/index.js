@@ -109,3 +109,74 @@ writeableStream.on('error', (err) => {
 // 'End' olayı, yazma işlemi akışın kendi perspektifinden tamamlandığında yazılabilir akış tarafından yayılır. Bu, akışa daha fazla veri yazılmayacağı anlamına gelir. Akışın bakış açısından yazma işlemi bittikten sonra herhangi bir temizleme veya ek eylem gerçekleştirmeniz gerekiyorsa genellikle bu olayı dinlersiniz.
 
 // Öte yandan, 'finish' olayı, tüm veriler temel sisteme (örneğin bir dosya) başarıyla aktarıldığında yayınlanır. Sistemin verileri yazmayı tamamladığını ve işlemin tamamen bittiğini belirtir. Bu olay özellikle verilerin başarıyla yazıldığını ve daha fazla işlem için hazır olduğunu bilmeniz gerektiğinde veya akışla ilişkili kaynakları kapatmanız gerektiğinde kullanışlıdır.
+
+//
+
+// 3. Dublex Streams: Node.js'de Duplex stream, hem veri okuyabilen hem de yazabilen bir iletişim kanalını temsil eden bir stream türüdür. Hem Okunabilir hem de Yazılabilir akışların özelliklerini tek bir varlıkta birleştirir.
+
+const net = require('node:net');
+
+const server = net.createServer((socket) => {
+  console.log('A client connected!');
+
+  socket.on('data', (data) => {
+    console.log('Received data from client: ' + data.toString());
+    socket.write('Echo: ' + data);
+  });
+
+  socket.on('end', () => {
+    console.log('Connection ended!');
+  });
+
+  socket.on('error', (err) => {
+    console.error(err);
+  });
+});
+
+server.listen(3000, () => {
+  console.log('Server listening on PORT:3000');
+});
+
+// Ayrıntılı bilgi için ./server.js & ./client.js inceleyebilirsiniz.
+
+//
+
+// 4. Transform Stream: transform akışı, Node.js'de okunabilir bir akış ile yazılabilir bir akış arasında aracı görevi gören bir akış türüdür. Verilerin kaynaktan hedefe aktarılırken değiştirilmesine olanak tanır. transform akışları özellikle sıkıştırma, şifreleme veya ayrıştırma gibi veri manipülasyonlarını, tüm veri kümesini bellekte depolamadan gerçek zamanlı olarak gerçekleştirmek için kullanışlıdır.
+
+// Transform stream şu şekilde çalışır:
+
+// Girdi Verileri: transform akışı, girdi olarak okunabilir bir akıştan veri alır. Bu veriler yığınlar halinde olabilir ve genellikle hepsi bir kerede değil parça parça işlenir.
+
+// Dönüşüm: Veriler transform akışından geçerken bir tür dönüşüme uğrar. Bu dönüşüm geliştirici tarafından tanımlanabilir ve verilerin istenen herhangi bir şekilde değiştirilmesini içerebilir. Örneğin, verileri gzip kullanarak sıkıştırabilir, AES şifreleme kullanarak şifreleyebilir veya bir biçimden diğerine ayrıştırabilirsiniz.
+
+// Çıktı Verileri: Dönüştürülen veriler daha sonra yazılabilir bir akışa sunulur; bu akış başka bir dönüştürme akışı, yazılabilir bir dosya akışı, HTTP yanıt akışı veya veri alabilen başka herhangi bir hedef olabilir.
+
+// transform akışlarının temel özellikleri ve faydaları:
+
+// Eşzamansız İşleme: transform akışları, dönüşümleri eşzamansız olarak gerçekleştirerek sistem kaynaklarının verimli kullanılmasına ve engellemesiz G/Ç işlemlerine olanak tanır.
+
+// Piping: Dönüştürme akışları, bir veri işleme ardışık düzeni oluşturmak için okunabilir ve yazılabilir akışlar gibi diğer akışlarla kolayca bir araya getirilebilir. Bu, modüler ve yeniden kullanılabilir kod sağlar.
+
+// Değiştirilebilirlik: Dönüştürme akışları son derece yapılandırılabilirdir ve çok çeşitli veri dönüşümleri gerçekleştirmek için özelleştirilebilir. Geliştiriciler verilerin nasıl dönüştürüldüğü üzerinde tam kontrole sahiptir.
+
+// Bellek Verimliliği: transform akışları verileri parçalar halinde işler, bu da özellikle büyük veri kümeleriyle uğraşırken bellekten tasarruf etmeye yardımcı olur.
+
+// Genel olarak, transform akışları Node.js'de verileri gerçek zamanlı olarak işlemek ve dönüştürmek için güçlü bir araçtır, bu da onları veri sıkıştırma, şifreleme, ayrıştırma ve daha fazlası gibi görevler için paha biçilmez kılar.
+
+const { pipeline } = require('node:stream/promises');
+const fs = require('node:fs');
+const zlib = require('node:zlib');
+
+const source = fs.createReadStream(
+  'C:/Users/samet_000/Desktop/tranform-stream-example'
+);
+const destination = fs.createWriteStream(
+  'C:/Users/samet_000/Desktop/example-transform'
+);
+
+async function run() {
+  pipeline(source, zlib.createGzip(), destination);
+  console.log('Pipeline succeeded!');
+}
+
+run().catch(console.error);
