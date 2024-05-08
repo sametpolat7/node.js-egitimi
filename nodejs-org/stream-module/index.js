@@ -175,7 +175,7 @@ const destination = fs.createWriteStream(
 );
 
 async function run() {
-  pipeline(source, zlib.createGzip(), destination);
+  await pipeline(source, zlib.createGzip(), destination);
   console.log('Pipeline succeeded!');
 }
 
