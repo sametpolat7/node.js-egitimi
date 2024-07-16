@@ -1,29 +1,27 @@
 const arguments = process.argv.slice(2);
 
 function PrimeNumbers(firstNum, secondNum) {
-    const primeNum = []
-    if(firstNum < secondNum) {
-        for(let i = secondNum; i >= firstNum; i--) {
-            let isPrime = true;
-            for(let j = i - 1; j > 1; j--) {
-                if(i % j === 0) {
-                    isPrime = false;
-                    break;
-                }
-            }
-            if(isPrime) {
-                primeNum.push(i)
-            }
+  const primeNum = [];
+  if (firstNum < secondNum) {
+    for (let i = secondNum; i >= firstNum; i--) {
+      let isPrime = true;
+      for (let j = i - 1; j > 1; j--) {
+        if (i % j === 0) {
+          isPrime = false;
+          break;
         }
+      }
+      if (isPrime) {
+        primeNum.push(i);
+      }
     }
-    else {
-        console.log('Baslangic sayisi, bitiş sayisindan buyuk olamaz!');
-    }
-    return console.log(primeNum);
+  } else {
+    console.log('Baslangic sayisi, bitiş sayisindan buyuk olamaz!');
+  }
+  return console.log(primeNum);
 }
 
 PrimeNumbers(arguments[0] * 1, arguments[1] * 1);
-
 
 // REPL
 /**

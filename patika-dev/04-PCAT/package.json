@@ -1,0 +1,18 @@
+{
+  "name": "pcat",
+  "version": "1.0.0",
+  "description": "PCAT Photo Album App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Photo",
+    "Album"
+  ],
+  "author": "Samet Polat",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.3.3"
+  }
+}

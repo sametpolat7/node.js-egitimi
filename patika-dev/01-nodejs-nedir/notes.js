@@ -20,7 +20,7 @@
 
 // Ölçeklenebilirlik: Node.js, yüksek düzeyde eşzamanlılığı idare edebilme yeteneğiyle bilinir, bu da onu özellikle gerçek zamanlı iletişim gerektiren veya çok sayıda eşzamanlı bağlantıyı idare etmesi gereken ölçeklenebilir uygulamalar oluşturmak için çok uygun hale getirir.
 
-// Buradaki bazı terimleri açıklayalım: 
+// Buradaki bazı terimleri açıklayalım:
 
 // Asynchronous: (Eşzamansız)
 // Programlamada eşzamanlı, "diğerine başlamadan önce bir şeyin bitmesini beklemek" anlamına gelir. Asenkron "beklememek" anlamına gelir - bir programın bir işlemin tamamlanmasını beklerken başka şeyler yapmasına izin verir. Daha basit bir ifadeyle, bir şeyin bitmesini beklemek yerine, diğer görevlere geçebilir ve bittiğinde daha sonra geri gelebiliriz. Bu özellikle dosya okuma, internetten veri alma veya kullanıcı etkileşimlerini işleme gibi bekleme süresinin programımızı yavaşlatabileceği görevler için kullanışlıdır.
@@ -61,25 +61,16 @@
 
 // Çekirdekler: Birçok modern CPU, aynı anda birden fazla görevi yürütmelerine olanak tanıyan birden fazla işlem çekirdeğine sahiptir. Her çekirdek talimatları bağımsız olarak yürütebilir ve CPU'nun genel işlem gücünü artırır.
 
-
 // Node.JS Egitimi
 // Process Object
 // Node.js'de process nesnesi, geçerli Node.js süreci hakkında bilgi ve bu süreç üzerinde kontrol sağlayan global bir nesnedir. Çalışan Node.js uygulamasıyla etkileşime girmenize, ortam değişkenlerine erişmenize, yürütme akışını kontrol etmenize ve süreçle ilgili çeşitli olayları ele almanıza olanak tanır.
 
-// Birkaç özelliği: 
+// Birkaç özelliği:
 // process.argv: Node.js işlemi başlatıldığında komut satırı üzerinden iletilebilen bağımsız değişkenlerini içeren bir dizi.
 // process.env: Kullanıcı ortam değişkenlerini içeren bir nesne.
 // process.cwd(): Node.js sürecinin geçerli çalışma dizinini döndürür.
-
 
 // REPL Nedir?
 // REPL (Read Eval Print Loop), Okuma-Değerlendirme-Yazdırma Döngüsü anlamına gelir. Node.js de dahil olmak üzere birçok programlama dilinde bulunan yerleşik bir etkileşimli programlama ortamıdır. Node.js REPL, bağımsız bir komut dosyası veya uygulama oluşturmaya gerek kalmadan JavaScript kodunu etkileşimli olarak çalıştırmak, ifadeleri değerlendirmek ve kod parçacıklarını test etmek için bir yol sağlar.
 
 // Node.js REPL, kod parçacıklarını hızlı bir şekilde test etmek, JavaScript özelliklerini denemek ve hata ayıklamak için kullanışlı bir araçtır. Özellikle ayrı komut dosyaları oluşturma ve çalıştırma yükü olmadan fikirleri prototiplemek ve keşfetmek için kullanışlıdır.
-
-
-
-
-
-
-
